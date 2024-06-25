@@ -4,57 +4,49 @@ import random
 
 
 
-def calculator(flag,  score1, score2 ):
-    roll = random.randint(1,6)
-    print("You rolled a: ", roll)
-    if roll ==1: 
-        if flag ==0 : 
-            score1 = 0
-            print("Your score is: ", score1)
-            flag = 1
-            print("Now it is your turn player 2")
-        elif flag ==1 : 
-            score2 = 0
-            print("Your score is: ", score2)
-            flag = 0
-            print("Now it is your turn player 1")
-    else:       
-        if flag == 0: 
-            score1 = score1 + roll
-            print("Your score is: ", score1)
-        elif flag == 1: 
-            score2 = score2 + roll 
-            print("Your score is: ", score2)
+def roll():
+     return random.randint(1,6) 
 
-    return flag,score1,score2
     
-score1 =0
-score2 = 0
-flag = 0 
+while True: 
+     num = int(input("Enter the number of players (2-4): "))
+     if 2 <= num <= 4: 
+          break
+     else :
+          print("Invalid entry")
 
-print("The game begins now player 1 will start!")
+scores = [0 for _ in range(num)]
+print(len(scores))
+max_score = 50
 
-while score1 <50 and score2 <50:
-    char = input("Do you want to roll the dice? (y/n): " )
-    if char == 'y': 
-        flag,score1, score2 = calculator(flag,score1,score2)
-    if char == 'n': 
-        if flag == 0: 
-            print("Your total score is: ", score1)
-            flag = 1
-            print("Now it is your turn player 2!")
-            print("Your total score is: ", score2)
+while max(scores) < max_score:
+     for index in range(num):
+        print("Player number ", index+1, " it is your turn now")
+        current_score = 0
+        print("Your current score right now is ", current_score)
+        while True:
+             char = input("Do you want to roll the dice? (y/n)")
+             if(char.lower()!='y'):
+                  break
+             
+             val= roll()
+             if val==1: 
+                current_score = 0
+                print("You rolled a 1.Your turn is done now!")
+                break
+             else: 
+                print("You just rolled a ", val)
+                current_score += val
+                print("Your current score is ", current_score)
+        scores[index] += current_score
+        print("Your final score now is :", current_score)  
 
-        else: 
-            print("Your total score is:" , score2)
-            flag = 0
-            print("Now it is your turn player 1!")
-            print("Your total score is: ", score1)
-
-if(score1>50) :
-    print("Player 1 is the winner!")
-if(score2>50) :
-    print("Player 2 is the winner") 
+win = max(scores)
+winner = scores.index(win)
+print("The winner is ", winner+1, " ! Their score is: ", win)
+        
+          
+          
         
 
 
